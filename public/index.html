@@ -1,0 +1,345 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Who's the Murderer?</title>
+    <meta name="description" content="Who's the Murderer MVP">
+    
+    <!----------------------------------------------------------------------------------------->
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.6.0/dist/networked-aframe.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    
+    <!-- AFRAME -->
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v6.1.1/dist/aframe-extras.min.js"></script>
+    <!-- physics -->
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+    <!-- super hand -->
+    <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
+    <!-- event-set -->
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <!-- vibration -->
+    <script src="https://unpkg.com/aframe-haptics-component/dist/aframe-haptics-component.min.js"></script>
+    
+    <!-- Croquet -->
+    <script src="https://unpkg.com/@croquet/croquet"></script>
+    
+    
+    <script src="/js/define-collider.js"></script>
+    <script src="/js/data.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="/js/inventory.js"></script>
+    <script src="/js/user-input.js"></script>
+    <script src="/js/manipulate-states.js"></script>
+    <script src="/js/sync-items.js"></script>
+    <script src="/js/game.js"></script>
+    <script src="/js/enter-exit-room.js"></script>
+    
+  </head>
+  <body>
+    <a-scene networked-scene="room: audio; adapter: easyrtc; audio: true; debug: false" physics="friction: 0.1; debug: true" cursor="rayOrigin: mouse" raycaster="objects: .doorHandle">
+      <a-assets timeout="10000">
+    
+    <!---------------------------     item models     ------------------------------------>
+        <!-- entire house -->
+        <a-asset-item id="house-model" src="https://cdn.glitch.com/0332cfd8-bca8-4a8e-b646-014ec7eecb17%2Fmodel.gltf?v=1619755023676"></a-asset-item>
+        
+        <!-- meeting room -->
+        <a-asset-item id="meetingRoomCollider" src="https://cdn.glitch.com/10fc15e3-76a8-43f4-b874-983ce05a2b3b%2Fmeeting-room-collider-glitch-me.glb?v=1622272905483"></a-asset-item>
+        <a-asset-item id="meetingRoomStatic" src="https://cdn.glitch.com/10fc15e3-76a8-43f4-b874-983ce05a2b3b%2FmeetingRoomStatic.glb?v=1622085997754"></a-asset-item>    
+
+        <!-- lucas room -->
+        <a-asset-item id="lucasRoomCollider" src="https://cdn.glitch.com/a3832ea3-e082-4160-aa6e-6235f7a70ae4%2Flucas-room-collider-glitch-me.glb?v=1622253177103"></a-asset-item>
+        <a-asset-item id="lucasRoomStatic" src="https://cdn.glitch.com/a3832ea3-e082-4160-aa6e-6235f7a70ae4%2FlucasRoomStaticUpdate.glb?v=1622173070057"></a-asset-item>
+        <a-asset-item id="lucasDoll1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/doll/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasKey1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/key/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasPhone1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/phone/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasNote1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/notebook/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasBox1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/box/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasBag1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/bag/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasNote3" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/notebook3/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasNote2" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/notebook2/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasBook2" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/bookStack2/scene.gltf"></a-asset-item>        
+        <a-asset-item id="lucasMonalisa1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/monalisa/scene.gltf"></a-asset-item>
+        <a-asset-item id="lucasLaptop1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/laptop/scene.gltf"></a-asset-item>
+        
+        <!-- Benny Room -->
+        <a-asset-item id="bennyRoomCollider" src="https://cdn.glitch.com/af8510d2-98aa-4846-afef-07b1bd9599a5%2Fbenny-room-collider-glitch-me.glb?v=1622330836059"></a-asset-item>
+        <a-asset-item id="bennyRoomStatic" src="https://cdn.glitch.com/a6edeb54-e7ab-44aa-b3e0-43cf6ec74721%2FbennyRoom.glb?v=1621477944544"></a-asset-item>
+        <a-asset-item id="bennyBook1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/book1/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyKey" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/key/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyWallet" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/wallet/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyPhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/phone/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyLaptop" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/laptop/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyCamera" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/camera/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyNotebook" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/notebook/scene.gltf"></a-asset-item>
+        <a-asset-item id="bennyBox" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/box/scene.gltf"></a-asset-item>        
+      
+        <!-- Peter Room -->
+        <a-asset-item id="peterRoomStatic" src="https://cdn.glitch.com/a6edeb54-e7ab-44aa-b3e0-43cf6ec74721%2Fpeter-room-glitch-me%20(1).glb?v=1621661368112"></a-asset-item>
+        <a-asset-item id="peterMedicine" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/medicine/scene.gltf"></a-asset-item>
+        <a-asset-item id="peterPens" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/pens/scene.gltf"></a-asset-item>
+        <a-asset-item id="peterPhoto" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/photo/scene.gltf"></a-asset-item>
+        <a-asset-item id="peterLetter" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/letter/scene.gltf"></a-asset-item>
+        <a-asset-item id="peterMonitor" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/monitor/scene.gltf"></a-asset-item>
+        <a-asset-item id="peterFish" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/fish/scene.gltf"></a-asset-item>
+                
+        <!-- Sonia room -->
+        <a-asset-item id="soniaStatic" src="https://cdn.glitch.com/3667fede-fb3a-4d66-a0c8-1f8c713a8907%2FsoniaRoomStatic.glb?v=1621670068811"></a-asset-item>
+        <a-asset-item id="soniaChair" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/chair/scene.glb"></a-asset-item>
+        <a-asset-item id="soniaBook" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/book/scene.glb"></a-asset-item>
+        <a-asset-item id="soniaPhoto" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/photo/scene.gltf"></a-asset-item>
+        <a-asset-item id="soniaLaptop" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/laptop/scene.gltf"></a-asset-item>
+        <a-asset-item id="soniaPerfume" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/perfume/scene.glb"></a-asset-item>
+        <a-asset-item id="soniaPhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/phone/scene.gltf"></a-asset-item>
+        <a-asset-item id="soniaNotepad" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/notepad/scene.glb"></a-asset-item>  
+        
+         <!-- Wendy room -->
+        <a-asset-item id="wendyStatic" src="https://cdn.glitch.com/80f8b936-3cb3-44a6-95b4-aeeb8fa25d0e%2FwendyRoomStatic.glb?v=1621834319910"></a-asset-item>
+        <a-asset-item id="wendyPhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/phone/scene.gltf"></a-asset-item>
+        <a-asset-item id="wendyLetter" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/letter/scene.gltf"></a-asset-item>
+        <a-asset-item id="wendyNotepad" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/notepad/scene.glb"></a-asset-item>
+        <a-asset-item id="wendyTowel" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/towel/scene.glb"></a-asset-item>
+        <a-asset-item id="wendyBoard" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/board/scene.glb"></a-asset-item>
+        <a-asset-item id="wendyDiamond" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/diamond/scene.glb"></a-asset-item>
+        
+        <!-- Jane Room -->
+        <a-asset-item id="janeStatic" src="https://cdn.glitch.com/4d9d2314-0de6-4dbc-a869-ae17dc23b618%2Fjane-room-glitch-me.glb?v=1622162094842"></a-asset-item>
+        <a-asset-item id="janeLaptop" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/laptop/scene.gltf"></a-asset-item>
+        <a-asset-item id="janeKey" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/key/scene.gltf"></a-asset-item>
+        <a-asset-item id="janePhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/phone/scene.gltf"></a-asset-item>
+        <a-asset-item id="janePillowOne" src="https://raw.githubusercontent.com/lzfgary/3D-models/main/jane/pillow/scene.gltf"></a-asset-item>
+        <a-asset-item id="janePillowTwo" src="https://raw.githubusercontent.com/lzfgary/3D-models/main/jane/pillow/scene.gltf"></a-asset-item>
+        <a-asset-item id="janeBookOne" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/book1/scene.gltf"></a-asset-item>
+        <a-asset-item id="janeBookFive" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/book2/scene.gltf"></a-asset-item>
+        <a-asset-item id="janeBox" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/box/scene.gltf"></a-asset-item>
+        <a-asset-item id="janeBookSet" src="https://raw.githubusercontent.com/lzfgary/3D-models/main/jane/paper_drawer/scene.gltf"></a-asset-item>
+        
+        <!---------------------------------    audio + figure   -------------------------------------->
+        <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
+        <img id="sky" src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+
+        <!-- Templates -->
+
+        <!-- Avatar -->
+        <template id="avatar-template">
+          <a-entity class="avatar" networked-audio-source>
+            <a-sphere class="head"
+              color="#5985ff"
+              scale="0.45 0.5 0.4"
+              random-color
+            ></a-sphere>
+            <a-entity class="face"
+              position="0 0.05 0"
+            >
+              <a-sphere class="eye"
+                color="#efefef"
+                position="0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere class="eye"
+                color="#efefef"
+                position="-0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </template>
+
+        <!-- /Templates -->
+        
+    <!---------------------------------    mixin   -------------------------------------->
+        <a-mixin id="decorative" static-body define-collider></a-mixin>
+
+        <a-mixin
+          id="interactable"
+          hoverable
+          event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true"
+          event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"
+        ></a-mixin>
+
+        <a-mixin
+          id="movable"
+          dynamic-body
+          grabbable="maxGrabbers: 1"
+          draggable
+          manipulate-grabbing-state
+          interact-with-inventory
+          define-collider
+        ></a-mixin>
+
+        <a-mixin
+          id="stationary"
+          static-body
+          clickable
+          show-script
+          add-showing-script-state
+          define-collider
+        ></a-mixin>
+
+        <a-mixin
+          id="scriptPanelConfig"
+          geometry="primitive: plane; width: 0.5; height: 0.65"
+          material="color: black; opacity: 0.75; side: double"
+          text="shader: msdf; color: white; align: left; value: null"
+          visible="false"
+        ></a-mixin>
+
+        <a-mixin
+          id="inventoryConfig"
+          geometry="primitive: box"
+          material="color: cyan; transparent: true; side: double"
+          collision-filter="collisionForces: false"
+          visible="false"
+        ></a-mixin>
+
+        <a-mixin
+          id="controller"
+          super-hands="colliderEvent: collisions;
+                              colliderEventProperty: els;
+                              colliderEndEvent: collisions;
+                              colliderEndEventProperty: clearedEls;
+                       grabStartButtons: triggerdown, gripdown;
+                       grabEndButtons: triggerup, gripup;
+                       dragDropStartButtons: triggerdown, gripdown;
+                       dragDropEndButtons: triggerup, gripup"
+          collision-filter="collisionForces: false"
+          physics-collider
+          static-body="shape: sphere; sphereRadius: 0.02"
+          hand-controls="handModelStyle: highPoly"
+        ></a-mixin>
+        
+        <a-mixin
+          id="doorHandle"
+          geometry="primitive: box; width: 0.1; height: 0.1; depth: 0.1"
+          material="color: cyan"
+          static-body
+        ></a-mixin>
+      </a-assets>
+
+      
+      
+    <!-- scene items -->
+      <a-entity gltf-model="#house-model" scale="0.5 0.5 0.5" id="house" class="decorative" mixin="decorative"></a-entity>
+      
+      <!-- meeting room -->
+      <a-entity gltf-model="#meetingRoomCollider" id="meetingRoomColliderId" class="decorative" mixin="decorative"></a-entity>
+      <a-entity gltf-model="#meetingRoomStatic" id="meetingRoom"></a-entity>
+
+      <!-- doorHandle -->
+      <a-entity id="doorHandleBennyOutside" class="doorHandle" mixin="doorHandle" position="-1.8 1 6.9" enter-room="room: benny; teleport: -2.2 0 6.9"></a-entity>
+      <a-entity id="doorHandleLucasOutside" class="doorHandle" mixin="doorHandle" position="1.6 1 4.9" enter-room="room: lucas; teleport: 2 0 4.9"></a-entity>
+      <a-entity id="doorHandlePeterOutside" class="doorHandle" mixin="doorHandle" position="-1.8 1 1.8" enter-room="room: peter; teleport: -2.2 0 1.8"></a-entity>
+      <a-entity id="doorHandleSoniaOutside" class="doorHandle" mixin="doorHandle" position="1.6 1 0.2" enter-room="room: sonia; teleport: 2 0 0.2"></a-entity>
+      <a-entity id="doorHandleJaneOutside" class="doorHandle" mixin="doorHandle" position="-1.8 1 -2.3" enter-room="room: jane; teleport: -2.2 0 -2.3"></a-entity>
+      <a-entity id="doorHandleWendyOutside" class="doorHandle" mixin="doorHandle" position="3 1 -10.4" enter-room="room: wendy; teleport: 3 0 -10"></a-entity>
+      
+      <a-entity id="doorHandleBennyInside" class="doorHandle" mixin="doorHandle" position="-2.2 1 6.9" exit-room="room: benny; teleport: -1.8 0 6.9"></a-entity>
+      <a-entity id="doorHandleLucasInside" class="doorHandle" mixin="doorHandle" position="2 1 4.9" exit-room="room: lucas; teleport: 1.6 0 4.9"></a-entity>
+      <a-entity id="doorHandlePeterInside" class="doorHandle" mixin="doorHandle" position="-2.2 1 1.8" exit-room="room: peter; teleport: -1.8 0 1.8"></a-entity>
+      <a-entity id="doorHandleSoniaInside" class="doorHandle" mixin="doorHandle" position="2 1 0.2" exit-room="room: sonia; teleport: 1.6 0 0.2"></a-entity>
+      <a-entity id="doorHandleJaneInside" class="doorHandle" mixin="doorHandle" position="-2.2 1 -2.3" exit-room="room: jane; teleport: -1.8 0 -2.3"></a-entity>
+      <a-entity id="doorHandleWendyInside" class="doorHandle" mixin="doorHandle" position="3 1 -10" exit-room="room: wendy; teleport: 3 0 -10.4"></a-entity>
+      
+      
+    <!-- user interaction -->
+      <!-- script panel -->
+      <a-entity id="scriptPanel" mixin="scriptPanelConfig"></a-entity>
+
+      
+      <a-entity id="virtual-cam" networked="template:#avatar-template;attachTemplateToLocal:false;" sync-with-cam spawn-in-circle="radius: 3">
+      
+        <a-sphere class="head"
+          visible="false"
+          random-color
+        ></a-sphere>
+      </a-entity>
+      
+       
+      
+      <a-entity id="rig" movement-controls="speed: 0.1" controller-input>
+        <!-- camera -->
+        <a-entity
+          camera
+          id="player"
+          look-controls
+          wasd-controls
+          position="0 1 0"
+        >
+        <a-entity id="textDisplay" text="value: Current Stage: Introduction\n Time left: 60s; color: red; width: 10; font: dejavu" position="0 -0.3 -2" visible="true">
+        </a-entity>
+        <a-entity id="aod" text="value: To be assigned...; color: green; width: 5;" position="-0.1 0.5 -5"></a-entity>
+        </a-entity>
+
+        <!-- inventory -->
+        <a-entity id="inventory" mixin="inventoryConfig"></a-entity>
+
+        <!-- right controller -->
+        <a-entity
+          id="rightHand"
+          mixin="controller"
+          hand-controls="hand: right"
+        ></a-entity>
+
+        <!-- left controller -->
+        <a-entity
+          id="leftHand"
+          mixin="controller"
+          hand-controls="hand: left"
+        ></a-entity>
+      </a-entity>
+
+      <a-entity position="0 0 0"
+        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+        material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+      
+
+      <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
+    </a-scene>
+
+    <script>
+      // On mobile remove elements that are resource heavy
+      var isMobile = AFRAME.utils.device.isMobile();
+
+      if (isMobile) {
+        var particles = document.getElementById('particles');
+        particles.parentNode.removeChild(particles);
+      }
+      
+      // Define custom schema for syncing avatar color, set by random-color
+      NAF.schemas.add({
+        template: '#avatar-template',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material',
+            property: 'color'
+          }
+        ]
+      });
+    </script>
+  </body>
+</html>

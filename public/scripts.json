@@ -1,0 +1,10 @@
+{"player1": "This is the script for player1",
+ "player2": "This is the script for player1",
+ "player3": "This is the script for player1",
+ "player4": "This is the script for player1",
+ "player5": "This is the script for player1",
+ "introduction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+ "voteInstruction": "Who do you think is the murderer?\n Move your thumbstick to select and press Y to decide\n",
+ "murderLose": "You are the murderer, you lose",
+ "murderWin": "You are the murderer, you win"
+}
