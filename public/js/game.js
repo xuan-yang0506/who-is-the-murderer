@@ -6,7 +6,7 @@ let DISCUSSION_PHASE1 = 2;
 let EXAMINATION_PHASE = 3;
 let DISCUSSION_PHASE2 = 4;
 let VOTE_PHASE = 5;
-let PHASE_TIME_PERIODS = [5, 5, 5, 5, 5, 200];
+let PHASE_TIME_PERIODS = [60, 60, 60, 60, 60, 200];
 var ROLES = ["player1", "player2", "player3"];
 let MURDERER = 0;
 var scripts;
@@ -303,7 +303,7 @@ class GameView extends Croquet.View {
 }
 
 Croquet.Session.join({
-  appId: "com.netaizzzz",
+  appId: "com.seanyang",
   name: "netaizzz",
   password: "zz",
   model: GameModel,

@@ -1,8 +1,4 @@
 var HANDS = { left: "leftHand", right: "rightHand" };
-var ballot = null;
-var submit = false;
-let reset = true;
-let hidden = false;
 
 AFRAME.registerComponent("controller-input", {
   init: function() {
@@ -13,56 +9,13 @@ AFRAME.registerComponent("controller-input", {
 
     this.el.addEventListener("abuttonup", this.onAButtonClick);
     this.el.addEventListener("bbuttonup", this.onBButtonClick);
-    this.el.addEventListener("thumbstickmoved", this.onThumbStickMove);
-    this.el.addEventListener("ybuttondown", this.onYButtonDown);
-    this.el.addEventListener("thumbstickdown", this.onThumbStickDown);
   },
 
   remove: function() {
     this.el.removeEventListener("abuttonup", this.onAButtonClick);
     this.el.removeEventListener("bbuttonup", this.onBButtonClick);
   },
-  
-  onThumbStickDown: function() {
-    if (!hidden) {
-      document.getElementById("aod").setAttribute("visible", "false");
-      document.getElementById("textDisplay").setAttribute("visible", "false");
-    } else {
-      document.getElementById("aod").setAttribute("visible", "true");
-      document.getElementById("textDisplay").setAttribute("visible", "true");
-    }
-    hidden = !hidden;
-  },
-  
-  onThumbStickMove: function(evt) {
-    if (ballot != null && !submit) {
-      if (evt.detail.x < -0.95) { 
-        if (reset) {
-          reset = false;
-          if (ballot > 0) {
-            ballot--;
-          }
-        }
-      } else if (evt.detail.x > 0.95) {
-        if (reset) {
-          reset = false;
-          if (ballot < ROLES.length - 2) {
-            ballot++;
-          }
-        }
-      } else {
-        reset = true;
-      }
-    }
-  },
-  
-  onYButtonDown: function(evt) {
-    if (ballot != null) {
-      submit = true;
-    }
-  },
-  
-  
+
   onAButtonClick: function() {
     if (this.rig.is("rGrabbing")) {
       // try storing the objects currently grabbed by the right hand
@@ -95,3 +48,17 @@ AFRAME.registerComponent("controller-input", {
     }
   }
 });
+
+// AFRAME.registerComponent("sync-pos-with-cam", {
+//   init: function() {
+//     this.cam = document.getElementById("player");
+//   },
+
+//   tick: function() {
+//     // make sure that camera has no x and z offset with rig at any time
+//     this.el.object3D.position.x += this.cam.object3D.position.x;
+//     this.el.object3D.position.z += this.cam.object3D.position.z;
+//     this.cam.object3D.position.x = 0;
+//     this.cam.object3D.position.z = 0;
+//   }
+// })

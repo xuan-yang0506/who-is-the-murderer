@@ -32,6 +32,7 @@
     <script src="https://unpkg.com/@croquet/croquet"></script>
     
     
+    
     <script src="/js/define-collider.js"></script>
     <script src="/js/data.js"></script>
     <script src="/js/util.js"></script>
@@ -41,23 +42,19 @@
     <script src="/js/manipulate-states.js"></script>
     <script src="/js/sync-items.js"></script>
     <script src="/js/game.js"></script>
-    <script src="/js/enter-exit-room.js"></script>
     
   </head>
   <body>
-    <a-scene networked-scene="room: audio; adapter: easyrtc; audio: true; debug: false" physics="friction: 0.1; debug: true" cursor="rayOrigin: mouse" raycaster="objects: .doorHandle">
+    <a-scene networked-scene="room: audio; adapter: easyrtc; audio: true; debug: false" physics="friction: 0.1; debug: false">
       <a-assets timeout="10000">
     
     <!---------------------------     item models     ------------------------------------>
-        <!-- entire house -->
         <a-asset-item id="house-model" src="https://cdn.glitch.com/0332cfd8-bca8-4a8e-b646-014ec7eecb17%2Fmodel.gltf?v=1619755023676"></a-asset-item>
         
         <!-- meeting room -->
-        <a-asset-item id="meetingRoomCollider" src="https://cdn.glitch.com/10fc15e3-76a8-43f4-b874-983ce05a2b3b%2Fmeeting-room-collider-glitch-me.glb?v=1622272905483"></a-asset-item>
         <a-asset-item id="meetingRoomStatic" src="https://cdn.glitch.com/10fc15e3-76a8-43f4-b874-983ce05a2b3b%2FmeetingRoomStatic.glb?v=1622085997754"></a-asset-item>    
 
         <!-- lucas room -->
-        <a-asset-item id="lucasRoomCollider" src="https://cdn.glitch.com/a3832ea3-e082-4160-aa6e-6235f7a70ae4%2Flucas-room-collider-glitch-me.glb?v=1622253177103"></a-asset-item>
         <a-asset-item id="lucasRoomStatic" src="https://cdn.glitch.com/a3832ea3-e082-4160-aa6e-6235f7a70ae4%2FlucasRoomStaticUpdate.glb?v=1622173070057"></a-asset-item>
         <a-asset-item id="lucasDoll1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/doll/scene.gltf"></a-asset-item>
         <a-asset-item id="lucasKey1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/key/scene.gltf"></a-asset-item>
@@ -70,60 +67,13 @@
         <a-asset-item id="lucasBook2" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/bookStack2/scene.gltf"></a-asset-item>        
         <a-asset-item id="lucasMonalisa1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/monalisa/scene.gltf"></a-asset-item>
         <a-asset-item id="lucasLaptop1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/laptop/scene.gltf"></a-asset-item>
+            
         
         <!-- Benny Room -->
-        <a-asset-item id="bennyRoomCollider" src="https://cdn.glitch.com/af8510d2-98aa-4846-afef-07b1bd9599a5%2Fbenny-room-collider-glitch-me.glb?v=1622330836059"></a-asset-item>
         <a-asset-item id="bennyRoomStatic" src="https://cdn.glitch.com/a6edeb54-e7ab-44aa-b3e0-43cf6ec74721%2FbennyRoom.glb?v=1621477944544"></a-asset-item>
-        <a-asset-item id="bennyBook1" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/book1/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyKey" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/key/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyWallet" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/wallet/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyPhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/phone/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyLaptop" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/laptop/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyCamera" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/camera/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyNotebook" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/notebook/scene.gltf"></a-asset-item>
-        <a-asset-item id="bennyBox" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/box/scene.gltf"></a-asset-item>        
-      
-        <!-- Peter Room -->
-        <a-asset-item id="peterRoomStatic" src="https://cdn.glitch.com/a6edeb54-e7ab-44aa-b3e0-43cf6ec74721%2Fpeter-room-glitch-me%20(1).glb?v=1621661368112"></a-asset-item>
-        <a-asset-item id="peterMedicine" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/medicine/scene.gltf"></a-asset-item>
-        <a-asset-item id="peterPens" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/pens/scene.gltf"></a-asset-item>
-        <a-asset-item id="peterPhoto" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/photo/scene.gltf"></a-asset-item>
-        <a-asset-item id="peterLetter" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/letter/scene.gltf"></a-asset-item>
-        <a-asset-item id="peterMonitor" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/monitor/scene.gltf"></a-asset-item>
-        <a-asset-item id="peterFish" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/peterRoom/fish/scene.gltf"></a-asset-item>
                 
-        <!-- Sonia room -->
-        <a-asset-item id="soniaStatic" src="https://cdn.glitch.com/3667fede-fb3a-4d66-a0c8-1f8c713a8907%2FsoniaRoomStatic.glb?v=1621670068811"></a-asset-item>
-        <a-asset-item id="soniaChair" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/chair/scene.glb"></a-asset-item>
-        <a-asset-item id="soniaBook" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/book/scene.glb"></a-asset-item>
-        <a-asset-item id="soniaPhoto" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/photo/scene.gltf"></a-asset-item>
-        <a-asset-item id="soniaLaptop" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/laptop/scene.gltf"></a-asset-item>
-        <a-asset-item id="soniaPerfume" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/perfume/scene.glb"></a-asset-item>
-        <a-asset-item id="soniaPhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/phone/scene.gltf"></a-asset-item>
-        <a-asset-item id="soniaNotepad" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/soniaRoom/notepad/scene.glb"></a-asset-item>  
+        <!---------------------------------    audio + figure   -------------------------------------->    
         
-         <!-- Wendy room -->
-        <a-asset-item id="wendyStatic" src="https://cdn.glitch.com/80f8b936-3cb3-44a6-95b4-aeeb8fa25d0e%2FwendyRoomStatic.glb?v=1621834319910"></a-asset-item>
-        <a-asset-item id="wendyPhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/phone/scene.gltf"></a-asset-item>
-        <a-asset-item id="wendyLetter" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/letter/scene.gltf"></a-asset-item>
-        <a-asset-item id="wendyNotepad" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/notepad/scene.glb"></a-asset-item>
-        <a-asset-item id="wendyTowel" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/towel/scene.glb"></a-asset-item>
-        <a-asset-item id="wendyBoard" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/board/scene.glb"></a-asset-item>
-        <a-asset-item id="wendyDiamond" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/wendyRoom/diamond/scene.glb"></a-asset-item>
-        
-        <!-- Jane Room -->
-        <a-asset-item id="janeStatic" src="https://cdn.glitch.com/4d9d2314-0de6-4dbc-a869-ae17dc23b618%2Fjane-room-glitch-me.glb?v=1622162094842"></a-asset-item>
-        <a-asset-item id="janeLaptop" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/laptop/scene.gltf"></a-asset-item>
-        <a-asset-item id="janeKey" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/key/scene.gltf"></a-asset-item>
-        <a-asset-item id="janePhone" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/phone/scene.gltf"></a-asset-item>
-        <a-asset-item id="janePillowOne" src="https://raw.githubusercontent.com/lzfgary/3D-models/main/jane/pillow/scene.gltf"></a-asset-item>
-        <a-asset-item id="janePillowTwo" src="https://raw.githubusercontent.com/lzfgary/3D-models/main/jane/pillow/scene.gltf"></a-asset-item>
-        <a-asset-item id="janeBookOne" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/book1/scene.gltf"></a-asset-item>
-        <a-asset-item id="janeBookFive" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/bennyRoom/book2/scene.gltf"></a-asset-item>
-        <a-asset-item id="janeBox" src="https://raw.githubusercontent.com/MoSummers-dy/CSE481-3dModels/main/assets/lucasRoom/box/scene.gltf"></a-asset-item>
-        <a-asset-item id="janeBookSet" src="https://raw.githubusercontent.com/lzfgary/3D-models/main/jane/paper_drawer/scene.gltf"></a-asset-item>
-        
-        <!---------------------------------    audio + figure   -------------------------------------->
         <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
         <img id="sky" src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
 
@@ -169,7 +119,7 @@
         <!-- /Templates -->
         
     <!---------------------------------    mixin   -------------------------------------->
-        <a-mixin id="decorative" static-body define-collider></a-mixin>
+        <a-mixin id="decorative" static-body></a-mixin>
 
         <a-mixin
           id="interactable"
@@ -185,7 +135,6 @@
           draggable
           manipulate-grabbing-state
           interact-with-inventory
-          define-collider
         ></a-mixin>
 
         <a-mixin
@@ -194,7 +143,6 @@
           clickable
           show-script
           add-showing-script-state
-          define-collider
         ></a-mixin>
 
         <a-mixin
@@ -229,45 +177,64 @@
           hand-controls="handModelStyle: highPoly"
         ></a-mixin>
         
-        <a-mixin
-          id="doorHandle"
-          geometry="primitive: box; width: 0.1; height: 0.1; depth: 0.1"
-          material="color: cyan"
-          static-body
-        ></a-mixin>
       </a-assets>
 
-      
-      
-    <!-- scene items -->
-      <a-entity gltf-model="#house-model" scale="0.5 0.5 0.5" id="house" class="decorative" mixin="decorative"></a-entity>
-      
+      <a-entity gltf-model="#house-model" scale="0.5 0.5 0.5" id="house" class="decorative" mixin="decorative" define-collider></a-entity>
       <!-- meeting room -->
-      <a-entity gltf-model="#meetingRoomCollider" id="meetingRoomColliderId" class="decorative" mixin="decorative"></a-entity>
+      <a-entity id="meetingRoomColliderId" class="decorative" mixin="decorative" define-collider></a-entity>
       <a-entity gltf-model="#meetingRoomStatic" id="meetingRoom"></a-entity>
+      
+      <!-- Lucas room -->
+      <a-entity id="lucasRoomColliderId" class="decorative" mixin="decorative" define-collider></a-entity>
+      <a-entity id="lucasRoom">
+        <a-entity gltf-model="#lucasRoomStatic"></a-entity>
+        <a-entity position="5 0.15 5" rotation="0 180 0" scale="0.25 0.25 0.25">
+          <a-entity position="-8 0 -8">
+            <a-entity position="-2 1 1" gltf-model="#lucasDoll1" id="lucasDoll" scale="0.1 0.1 0.1" rotation="0 0 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+            <a-entity position="4.5 0.7 -5" gltf-model="#lucasKey1" id="lucasKey" scale="1 1 1" rotation="0 0 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+          </a-entity>
 
-      <!-- doorHandle -->
-      <a-entity id="doorHandleBennyOutside" class="doorHandle" mixin="doorHandle" position="-1.8 1 6.9" enter-room="room: benny; teleport: -2.2 0 6.9"></a-entity>
-      <a-entity id="doorHandleLucasOutside" class="doorHandle" mixin="doorHandle" position="1.6 1 4.9" enter-room="room: lucas; teleport: 2 0 4.9"></a-entity>
-      <a-entity id="doorHandlePeterOutside" class="doorHandle" mixin="doorHandle" position="-1.8 1 1.8" enter-room="room: peter; teleport: -2.2 0 1.8"></a-entity>
-      <a-entity id="doorHandleSoniaOutside" class="doorHandle" mixin="doorHandle" position="1.6 1 0.2" enter-room="room: sonia; teleport: 2 0 0.2"></a-entity>
-      <a-entity id="doorHandleJaneOutside" class="doorHandle" mixin="doorHandle" position="-1.8 1 -2.3" enter-room="room: jane; teleport: -2.2 0 -2.3"></a-entity>
-      <a-entity id="doorHandleWendyOutside" class="doorHandle" mixin="doorHandle" position="3 1 -10.4" enter-room="room: wendy; teleport: 3 0 -10"></a-entity>
+          <a-entity position="4 0 7.25">
+            <a-entity>
+              <a-entity position="5 2.8 2.3" gltf-model="#lucasPhone1" id="lucasPhoneOne" scale="0.2 0.2 0.2" rotation="-90 90 90" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+            </a-entity>
+            <a-entity position="5 0 0">
+              <a-entity position="0 0.2 2.9" gltf-model="#lucasNote1" id="lucasNoteOne" scale="0.005 0.005 0.005" rotation="0 90 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+              <a-entity position="-0.2 0.4 2" gltf-model="#lucasBook2" id="lucasBookTwo" scale="0.2 0.2 0.2" rotation="0 180 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+              <a-entity position="0 2 2.4" gltf-model="#lucasBox1" id="lucasBoxOne" scale="0.3 0.2 0.3" rotation="0 90 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="-7 0 8.75">
+            <a-entity position="-1.8 2.5 -0.5" gltf-model="#lucasBag1" id="lucasBag" scale="0.7 0.7 0.7" rotation="0 180 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity> 
+            <a-entity position="-2.5 2 0.6" gltf-model="#lucasNote3" id="lucasNoteThree" scale="0.001 0.001 0.001" rotation="90 90 180" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+            <a-entity position="1.5 2 -3" gltf-model="#lucasPhone1" id="lucasPhoneTwo" scale="0.2 0.2 0.2" rotation="90 90 180" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+          </a-entity>
+
+          <a-entity position="5 0 -12.5">
+            <a-entity position="0.35 3.4 0" gltf-model="#lucasLaptop1" id="lucasLaptop" scale="1.5 1.5 1.5" rotation="0 0 0" class="interactable" mixin="interactable" define-collider></a-entity>
+            <a-entity position="2.5 2.5 0" gltf-model="#lucasNote2" id="lucasNoteTwo" scale="0.005 0.005 0.004" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+            <a-entity position="-2 2.5 0" gltf-model="#lucasBook2" id="lucasBookOne" scale="0.25 0.25 0.25" rotation="0 -60 0" class="interactable movable" mixin="interactable movable" define-collider></a-entity>
+          </a-entity>
+
+          <a-entity position="-12.75 2 7" gltf-model="#lucasMonalisa1" id="lucasMonalisa" scale="0.07 0.07 0.07" rotation="0 90 0" class="interactable" mixin="interactable" define-collider></a-entity>
+        </a-entity>
+      </a-entity>
       
-      <a-entity id="doorHandleBennyInside" class="doorHandle" mixin="doorHandle" position="-2.2 1 6.9" exit-room="room: benny; teleport: -1.8 0 6.9"></a-entity>
-      <a-entity id="doorHandleLucasInside" class="doorHandle" mixin="doorHandle" position="2 1 4.9" exit-room="room: lucas; teleport: 1.6 0 4.9"></a-entity>
-      <a-entity id="doorHandlePeterInside" class="doorHandle" mixin="doorHandle" position="-2.2 1 1.8" exit-room="room: peter; teleport: -1.8 0 1.8"></a-entity>
-      <a-entity id="doorHandleSoniaInside" class="doorHandle" mixin="doorHandle" position="2 1 0.2" exit-room="room: sonia; teleport: 1.6 0 0.2"></a-entity>
-      <a-entity id="doorHandleJaneInside" class="doorHandle" mixin="doorHandle" position="-2.2 1 -2.3" exit-room="room: jane; teleport: -1.8 0 -2.3"></a-entity>
-      <a-entity id="doorHandleWendyInside" class="doorHandle" mixin="doorHandle" position="3 1 -10" exit-room="room: wendy; teleport: 3 0 -10.4"></a-entity>
-      
-      
-    <!-- user interaction -->
+      <!-- benny room -->
+      <a-entity id="bennyRoomColliderId" class="decorative" mixin="decorative" define-collider></a-entity>
+      <a-entity id="bennyRoom">
+        <a-entity gltf-model="#bennyRoomStatic"></a-entity>
+      </a-entity>
+        
+            
+      <!----------------------------------------------------------------------------------------->
       <!-- script panel -->
       <a-entity id="scriptPanel" mixin="scriptPanelConfig"></a-entity>
+      
 
       
-      <a-entity id="virtual-cam" networked="template:#avatar-template;attachTemplateToLocal:false;" sync-with-cam spawn-in-circle="radius: 3">
+      <a-entity id="virtual-cam" networked="template:#avatar-template;attachTemplateToLocal:false;" sync-with-cam spawn-in-circle="radius:3;">
       
         <a-sphere class="head"
           visible="false"

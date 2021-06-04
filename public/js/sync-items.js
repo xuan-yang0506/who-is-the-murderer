@@ -234,7 +234,7 @@ class ItemTrackingView extends Croquet.View {
 }
 
 Croquet.Session.join({
-  appId: "com.netaizzzz",
+  appId: "com.seanyang",
   name: "netaizzz",
   password: "zz",
   model: ItemTrackingModel,
